@@ -127,7 +127,10 @@ namespace TDSM.Data.MySQL
                 cmd.CommandType = builder.CommandType;
                 cmd.Parameters.AddRange(ms.Parameters.ToArray());
 
-                return (T)cmd.ExecuteScalar();
+                var res = cmd.ExecuteScalar();
+				if (null == res) return default(T);
+
+				return (T)res;
             }
         }
 
