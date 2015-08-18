@@ -70,14 +70,13 @@ BEGIN
 
 				while (vGroupId is not null and vGroupId > 0 and vNodeFound = 0) do
 					/* Check group permissions */
-					select vGroupId;
 					if exists
 					(
 						select 1
 						from SqlPermissions_GroupPermissions gp
 							left join SqlPermissions_Permissions pm on gp.PermissionId = pm.Id
 						where gp.GroupId = vGroupId
-							and (pm.Node = prmNode or pn.Node = "*")
+							and (pm.Node = prmNode or pm.Node = "*")
 							and pm.Deny = 1
 					) then
 						set vPermissionValue = 0;
@@ -89,7 +88,7 @@ BEGIN
 						from SqlPermissions_GroupPermissions gp
 							left join SqlPermissions_Permissions pm on gp.PermissionId = pm.Id
 						where gp.GroupId = vGroupId
-							and (pm.Node = prmNode or pn.Node = "*")
+							and (pm.Node = prmNode or pm.Node = "*")
 							and pm.Deny = 0
 					) then
 						set vPermissionValue = 1;
